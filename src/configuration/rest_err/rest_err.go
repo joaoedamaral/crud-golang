@@ -1,8 +1,8 @@
-package err
+package rest_err
 
 import "net/http"
 
-type Err struct {
+type RestErr struct {
 	Message string   `json:"message"`
 	Err     string   `json:"error"`
 	Code    int      `json:"code"`
@@ -14,8 +14,8 @@ type Causes struct {
 	Message string `json:"message"`
 }
 
-func NewErr(msg, err string, code int, causes []Causes) *Err {
-	return &Err{
+func NewErr(msg, err string, code int, causes []Causes) *RestErr {
+	return &RestErr{
 		Message: msg,
 		Err:     err,
 		Code:    code,
@@ -23,20 +23,20 @@ func NewErr(msg, err string, code int, causes []Causes) *Err {
 	}
 }
 
-func (r *Err) Error() string {
+func (r *RestErr) Error() string {
 	return r.Message
 }
 
-func NewBadRequestError(msg string) *Err {
-	return &Err{
+func NewBadRequestError(msg string) *RestErr {
+	return &RestErr{
 		Message: msg,
 		Err:     "bad_request",
 		Code:    http.StatusBadRequest,
 	}
 }
 
-func NewBadRequestValidationError(msg string, causes []Causes) *Err {
-	return &Err{
+func NewBadRequestValidationError(msg string, causes []Causes) *RestErr {
+	return &RestErr{
 		Message: msg,
 		Err:     "bad_request",
 		Code:    http.StatusBadRequest,
@@ -44,24 +44,24 @@ func NewBadRequestValidationError(msg string, causes []Causes) *Err {
 	}
 }
 
-func NewInternalServerError(msg string) *Err {
-	return &Err{
+func NewInternalServerError(msg string) *RestErr {
+	return &RestErr{
 		Message: msg,
 		Err:     "internal_server_error",
 		Code:    http.StatusInternalServerError,
 	}
 }
 
-func NewNotFoundError(msg string) *Err {
-	return &Err{
+func NewNotFoundError(msg string) *RestErr {
+	return &RestErr{
 		Message: msg,
 		Err:     "not_found",
 		Code:    http.StatusNotFound,
 	}
 }
 
-func NewForbiddenError(msg string) *Err {
-	return &Err{
+func NewForbiddenError(msg string) *RestErr {
+	return &RestErr{
 		Message: msg,
 		Err:     "forbidden",
 		Code:    http.StatusForbidden,
