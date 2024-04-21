@@ -1,5 +1,26 @@
 package controller
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"log"
 
-func CreateUser(c *gin.Context) {}
+	"github.com/gin-gonic/gin"
+	"github.com/joaoedamaral/crud-golang/src/configuration/rest_err"
+	"github.com/joaoedamaral/crud-golang/src/controller/model/request"
+)
+
+func CreateUser(c *gin.Context) {
+	log.Println("[LOGS] Init CreateUser controller")
+	var userRequest request.UserRequest
+
+	if err := c.ShouldBindJSON(&userRequest); err != nil {
+		log.Printf("[LOGS][CREATEUSER] Error trying to marshal object, error=%s", err.Error())
+		errRest := rest_err.NewBadRequestError("Some fields are incorrect")
+
+		c.JSON(errRest.Code, errRest)
+		return
+	}
+
+	fmt.Println(userRequest)
+
+}
